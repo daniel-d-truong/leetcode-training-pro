@@ -14,7 +14,13 @@ export const getCookie = (name) => {
     return (value != null) ? unescape(value[1]) : null;
 }
 
-export const generateCookieForProblem = (problem) => `notes-for-${problem}`;
+export const PurposeEnum = {
+    notepad: 'notepad',
+    timer: 'timer'
+}
+
+// Use purpose enum
+export const generateCookieForProblem = (problem, purpose) => `notes-for-${problem}`;
 
 export const debounce = (func, wait, immediate) => {
 	let timeout;

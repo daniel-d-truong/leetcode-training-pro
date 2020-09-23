@@ -57,10 +57,6 @@ const getContentElement = () => {
     return document.getElementsByClassName('question-content__JfgR')[0];
 }
 
-const problemContent = getContentElement();
-const notepadContent = createTextareaElement();
-const videoContent = createYoutubeVideo();
-
 // Add Panels
 setTimeout(() => {
     // Logic goes here
