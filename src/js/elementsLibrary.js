@@ -2,10 +2,25 @@ import * as Util from './utilities';
 
 // Create Textarea Element
 export const createTextareaElement = () => {
+    // Get cookie name
+    const problemName = window.location.href.split('/')[4];
+    const cookieName = Util.generateCookieForProblem(problemName);
+
+    // Create textarea elements
     const textarea = document.createElement("TEXTAREA");
     textarea.style.width = '100%';
     textarea.style.height = '100vh';
     textarea.placeholder = "Write your thoughts here..."
+    textarea.value = Util.getCookie(cookieName);
+
+    const onInputChange = Util.debounce((e) => {
+        console.log(e);
+        Util.setCookie(cookieName, e.target.value);
+        console.log(`saved cookie: ${cookieName}`);
+    }, 50);
+
+    textarea.addEventListener('input', onInputChange);
+    textarea.addEventListener('propertychange', onInputChange); // For IE8
     return textarea;
 };
 
@@ -84,6 +99,6 @@ export class TimerElement {
             // Change the timer text
             this.element.lastChild.textContent = Util.formatTime(this.currentTime);
         }
-        setTimeout(() => this.incrementTimer()  , 1000);
+        setTimeout(() => this.incrementTimer(), 1000);
     }
 }
