@@ -37,98 +37,19 @@ const handleBackgroundResponse = response =>
 chrome.runtime.sendMessage('Message from leetcode-content.js!', handleBackgroundResponse);
 */
 
+import { createTextareaElement, TimerElement, createYoutubeVideo } from './elementsLibrary';
 
-
-
-let timerStarted = false; 
-let currentTime = 0; 
-
-// Create Textarea Element
-const createTextareaElement = () => {
-    const textarea = document.createElement("TEXTAREA");
-    textarea.style.width = '100%';
-    textarea.style.height = '100vh';
-    textarea.placeholder = "Write your thoughts here..."
-    return textarea;
-};
-
-// Create Iframe Youtube Video
-const createYoutubeVideo = () => {
-    const videoPlayer = document.createElement('IFRAME');
-    videoPlayer.width = "560";
-    videoPlayer.height = "315";
-    videoPlayer.frameborder = "0";
-    videoPlayer.allowfullscreen = true;
-    videoPlayer.src = "https://www.youtube.com/embed/U6-X_QOwPcs";
-    return videoPlayer;
-};
-
-const createTimerElement = () => {
-    const timerEl = document.createElement('BUTTON');
-    timerEl.setAttribute("type", "ghost");
-    timerEl.classList.add('css-1nonhw5-ghost-xs');
-    timerEl.style.marginRight = '5px';
-
-    // Set Timer Icon
-    const timerIcon = document.createElement('IMG');
-    timerIcon.setAttribute('src', 'https://img.icons8.com/android/24/000000/clock.png');
-    timerIcon.style.width = '12px';
-    timerIcon.style.height = '12px';
-    timerIcon.style.marginRight = '2px';
-
-    // Set Timer Text
-    const timerText = document.createElement('P');
-    timerText.innerText = '00:00:00';
-    timerText.style.margin = 'auto';
-    timerText.style.marginLeft = '2px';
-
-    timerEl.appendChild(timerIcon);
-    timerEl.appendChild(timerText);
-
-    // Add onclick for timerEl
-    timerEl.addEventListener('click', () => {
-        timerStarted = !timerStarted;
-
-        if (!timerStarted) {
-            timerEl.style.backgroundColor = 'transparent';
-        } else {
-            timerEl.style.backgroundColor = '#DDDDDD';
-        }
-        
-        console.log('button clicked');
-    });
-
-    return timerEl;
-};
 
 // Create iframe youtube video 
 const toggledNotepadElement = [createTextareaElement()];
 const toggledVideoElement = [createYoutubeVideo()];
-const timerElement = createTimerElement();
+const timerElement = (new TimerElement()).element;
 
 let notepadClicked = false;
 let videoClicked = false; 
 let colorDict = {
     false: 'css-1lelwtv-TabHeader',
     true: 'css-19j86kk-TabHeader'
-};
-
-// Timer Stuff
-const getTwoDigits = (num) => ("0" + num).slice(-2);
-
-const formatTime = () => `${(getTwoDigits(parseInt(currentTime/60)/60))}:${(getTwoDigits(parseInt(currentTime/60)%60))}:${getTwoDigits(parseInt(currentTime%60))}`;
-
-// Perform Loop to Increment Timer 
-const incrementTimer = () => {
-    if (timerStarted) {
-        currentTime++;
-        // Change the timer text
-        timerElement.lastChild.textContent = formatTime();
-
-        console.log(timerElement.lastChild.innerText);
-        console.log(timerElement.lastChild);
-    }
-    setTimeout(incrementTimer, 1000);
 };
 
 // Get content element
@@ -194,5 +115,3 @@ setTimeout(() => {
     tabsPanel.appendChild(videoTab);
 
 }, 2000);
-
-incrementTimer();
