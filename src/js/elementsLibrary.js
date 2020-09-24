@@ -1,21 +1,20 @@
 import * as Util from './utilities';
 const problemName = window.location.href.split('/')[4];
+const notepadCookieName = Util.generateCookieForProblem(problemName, Util.PurposeEnum.notepad);
+const timerCookieName = Util.generateCookieForProblem(problemName, Util.PurposeEnum.timer);
 
 // Create Textarea Element
-export const createTextareaElement = () => {
-    // Get cookie name
-    const cookieName = Util.generateCookieForProblem(problemName, Util.PurposeEnum.notepad);
-
+export const createTextareaElement = () => {    // Get cookie name
     // Create textarea elements
     const textarea = document.createElement("TEXTAREA");
     textarea.style.width = '100%';
     textarea.style.height = '70vh';
     textarea.placeholder = "Write your thoughts here..."
-    textarea.value = Util.getCookie(cookieName);
+    textarea.value = Util.getCookie(notepadCookieName);
 
     const onInputChange = Util.debounce((e) => {
         console.log(e);
-        Util.setCookie(cookieName, e.target.value);
+        Util.setCookie(notepadCookieName, e.target.value);
     }, 50);
 
     textarea.addEventListener('input', onInputChange);
@@ -37,8 +36,8 @@ export const createYoutubeVideo = () => {
 export class TimerElement {
     constructor() {
         this.timerStarted = false;
-        this.cookieName = Util.generateCookieForProblem(problemName, Util.PurposeEnum.timer);
-        this.currentTime = Util.getCookie(Util.generateCookieForProblem(problemName, Util.PurposeEnum.timer) || 0);
+        this.timerCookieName = timerCookieName;
+        this.currentTime = Util.getCookie(timerCookieName) || 0;
         this.element = this.createTimerElement();
         this.addEventListeners();
         this.incrementTimer();
@@ -77,8 +76,7 @@ export class TimerElement {
         timerIcon.style.width = '12px';
         timerIcon.style.height = '12px';
         timerIcon.style.marginRight = '2px';
-    
-        console.log(this.currentTime);
+        
         // Set Timer Text
         const timerText = document.createElement('P');
         timerText.innerText = Util.formatTime(this.currentTime);
