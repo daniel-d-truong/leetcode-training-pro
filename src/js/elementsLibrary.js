@@ -96,7 +96,7 @@ export class TimerElement {
             this.element.lastChild.textContent = Util.formatTime(this.currentTime);
 
             // Set cookie to new time 
-            Util.setCookie(this.cookieName, this.currentTime);
+            Util.setCookie(this.timerCookieName, this.currentTime);
         }
         setTimeout(() => this.incrementTimer(), 1000);
     }

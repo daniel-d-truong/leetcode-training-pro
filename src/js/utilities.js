@@ -20,7 +20,7 @@ export const PurposeEnum = {
 }
 
 // Use purpose enum
-export const generateCookieForProblem = (problem, purpose) => `notes-for-${problem}`;
+export const generateCookieForProblem = (problem, purpose) => `${purpose}-for-${problem}`;
 
 export const debounce = (func, wait, immediate) => {
 	let timeout;
